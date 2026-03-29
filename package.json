@@ -1,0 +1,11 @@
+{
+  "name": "my-crew",
+  "version": "0.1.0",
+  "description": "픽셀 사무실에서 내 봇들이 일하는 모습을 보여주는 모니터링 화면",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "license": "MIT"
+}
