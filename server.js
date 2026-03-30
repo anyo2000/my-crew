@@ -21,7 +21,7 @@ const MIME = {
 const WORKERS = [
   {
     id: 'artist',
-    name: '그림쟁이',
+    name: '아트 민',
     icon: '🎨',
     extensions: ['.jpg', '.jpeg', '.png', '.svg', '.webp', '.gif', '.bmp', '.ico'],
     workingLines: [
@@ -39,7 +39,7 @@ const WORKERS = [
   },
   {
     id: 'writer',
-    name: '글쟁이',
+    name: '글 작가',
     icon: '✍️',
     extensions: ['.md', '.txt', '.mdx'],
     workingLines: [
@@ -57,7 +57,7 @@ const WORKERS = [
   },
   {
     id: 'coder',
-    name: '코더',
+    name: '코드 박',
     icon: '💻',
     extensions: ['.js', '.ts', '.tsx', '.jsx', '.py', '.sh'],
     workingLines: [
@@ -74,11 +74,28 @@ const WORKERS = [
     ],
   },
   {
+    id: 'publisher',
+    name: '퍼블 이',
+    icon: '🌐',
+    extensions: ['.html', '.css', '.scss'],
+    workingLines: [
+      '페이지 만드는 중',
+      '스타일 잡는 중',
+      'HTML 짜는 중',
+      '반응형 맞추는 중',
+      '레이아웃 코딩 중',
+    ],
+    idleLines: [
+      'Codepen 구경 중',
+      '트렌드 사이트 서핑',
+      'CSS 실험 중',
+    ],
+  },
+  {
     id: 'designer',
-    name: 'PPT장인',
+    name: '디자인 킴',
     icon: '📊',
     extensions: ['.pptx', '.ppt', '.key'],
-    // HTML 중 슬라이드 성격 파일도 감지 (별도 로직)
     folderHints: ['slide', 'ppt', 'presentation', 'output', 'deck'],
     workingLines: [
       '슬라이드 만드는 중',
@@ -95,10 +112,9 @@ const WORKERS = [
   },
   {
     id: 'planner',
-    name: '기획자',
+    name: '기획 장',
     icon: '🧠',
     extensions: [],
-    // config, README, CLAUDE.md, package.json 등
     fileNames: ['README.md', 'CLAUDE.md', 'package.json', 'tsconfig.json', '.env', 'config.js', 'config.ts', 'settings.json'],
     workingLines: [
       '구상 중',
@@ -115,10 +131,9 @@ const WORKERS = [
   },
   {
     id: 'organizer',
-    name: '정리왕',
+    name: '정리 최',
     icon: '📋',
     extensions: ['.json', '.csv', '.yaml', '.yml', '.toml', '.xml'],
-    // package.json은 기획자에게 양보 (중복 방지는 로직에서)
     excludeFileNames: ['package.json', 'tsconfig.json', 'settings.json'],
     workingLines: [
       '데이터 정리 중',
@@ -149,7 +164,7 @@ function scanRecentFiles() {
       `-not -path "*/dist/*" ` +
       `-not -path "*/__pycache__/*" ` +
       `-not -path "*/.cache/*" ` +
-      `-type f -mmin -0.5 2>/dev/null || true`,
+      `-type f -mmin -1 2>/dev/null || true`,
       { encoding: 'utf-8', timeout: 5000 }
     ).trim();
 
@@ -251,13 +266,6 @@ function getCrewStatus() {
       detailRepo,
       fileCount: matchedFiles.length,
     };
-  });
-
-  // 활동중인 멤버 앞으로
-  crew.sort((a, b) => {
-    if (a.action === 'working' && b.action !== 'working') return -1;
-    if (a.action !== 'working' && b.action === 'working') return 1;
-    return 0;
   });
 
   return crew;

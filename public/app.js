@@ -152,12 +152,13 @@ const PAL = {
 };
 
 const COLORS_BY_ID = {
-  artist:    { body: '#e84393', head: '#fdd8c0', hair: '#222' },
-  writer:    { body: '#4a90d9', head: '#fdd8c0', hair: '#4a3020' },
-  coder:     { body: '#27ae60', head: '#fdd8c0', hair: '#333' },
-  designer:  { body: '#9b59b6', head: '#fdd8c0', hair: '#5a3825' },
-  planner:   { body: '#e67e22', head: '#fdd8c0', hair: '#654321' },
-  organizer: { body: '#1abc9c', head: '#fdd8c0', hair: '#3a2510' },
+  artist:    { body: '#e84393', bodyDark: '#c0357a', shirt: '#fff', head: '#fdd8c0', headShadow: '#ecc4a8', hair: '#222', hairHi: '#444', eye: '#333', cheek: '#f0a0a0' },
+  writer:    { body: '#4a90d9', bodyDark: '#3a78b8', shirt: '#e8e8f0', head: '#fdd8c0', headShadow: '#ecc4a8', hair: '#4a3020', hairHi: '#6a4a38', eye: '#333', cheek: '#f0a0a0' },
+  coder:     { body: '#27ae60', bodyDark: '#1e8a4c', shirt: '#1a1a2e', head: '#fdd8c0', headShadow: '#ecc4a8', hair: '#333', hairHi: '#555', eye: '#333', cheek: '#f0a0a0' },
+  designer:  { body: '#9b59b6', bodyDark: '#7d4596', shirt: '#fff', head: '#fdd8c0', headShadow: '#ecc4a8', hair: '#5a3825', hairHi: '#7a5840', eye: '#333', cheek: '#f0a0a0' },
+  planner:   { body: '#e67e22', bodyDark: '#c56a1a', shirt: '#fff8ee', head: '#fdd8c0', headShadow: '#ecc4a8', hair: '#654321', hairHi: '#856340', eye: '#333', cheek: '#f0a0a0' },
+  publisher: { body: '#e74c3c', bodyDark: '#c0392b', shirt: '#fff', head: '#fdd8c0', headShadow: '#ecc4a8', hair: '#1a1a2e', hairHi: '#3a3a4e', eye: '#333', cheek: '#f0a0a0' },
+  organizer: { body: '#1abc9c', bodyDark: '#15997e', shirt: '#e0f5f0', head: '#fdd8c0', headShadow: '#ecc4a8', hair: '#3a2510', hairHi: '#5a4530', eye: '#333', cheek: '#f0a0a0' },
 };
 
 function getColors(id) {
@@ -233,6 +234,69 @@ function drawOffice() {
     rect(1221, 72, 1, 5, 'rgba(255,255,255,0.3)');
     rect(1224, 70, 1, 7, 'rgba(255,255,255,0.2)');
   }
+
+  // === 왼쪽 사무실 소품 ===
+
+  // 책장 (왼쪽 벽)
+  rect(30, 140, 80, 120, '#4a3520');
+  rect(33, 143, 74, 2, '#6b5030');
+  rect(33, 175, 74, 2, '#6b5030');
+  rect(33, 207, 74, 2, '#6b5030');
+  rect(33, 239, 74, 2, '#6b5030');
+  // 책들
+  rect(38, 148, 8, 25, '#e74c3c');
+  rect(48, 152, 6, 21, '#3498db');
+  rect(56, 149, 7, 24, '#f39c12');
+  rect(65, 151, 9, 22, '#2ecc71');
+  rect(77, 148, 6, 25, '#9b59b6');
+  rect(85, 153, 8, 20, '#1abc9c');
+  rect(38, 180, 10, 25, '#e67e22');
+  rect(50, 183, 7, 22, '#2980b9');
+  rect(60, 179, 8, 26, '#c0392b');
+  rect(72, 182, 6, 23, '#8e44ad');
+  rect(82, 180, 10, 25, '#16a085');
+  rect(40, 212, 12, 24, '#d35400');
+  rect(55, 214, 8, 22, '#27ae60');
+  rect(66, 211, 9, 25, '#2c3e50');
+  rect(80, 213, 7, 23, '#e74c3c');
+
+  // 서류함 (왼쪽 아래)
+  rect(50, 380, 70, 90, '#555');
+  rect(53, 385, 64, 18, '#666');
+  rect(53, 408, 64, 18, '#666');
+  rect(53, 431, 64, 18, '#666');
+  rect(80, 391, 12, 6, '#888');
+  rect(80, 414, 12, 6, '#888');
+  rect(80, 437, 12, 6, '#888');
+
+  // 워터쿨러 (왼쪽)
+  rect(140, 320, 30, 50, '#bbb');
+  rect(143, 310, 24, 14, '#89CFF0');
+  rect(143, 306, 24, 6, '#aaa');
+  rect(150, 365, 10, 5, '#999');
+
+  // === 오른쪽 사무실 소품 ===
+
+  // 프린터 (오른쪽)
+  rect(1100, 330, 50, 30, '#666');
+  rect(1103, 325, 44, 8, '#777');
+  rect(1110, 355, 30, 3, '#eee');
+
+  // 게시판 (오른쪽 벽)
+  rect(1120, 140, 100, 80, '#8b6f47');
+  rect(1123, 143, 94, 74, '#d4a853');
+  // 메모들
+  rect(1130, 150, 25, 25, '#fff3b0');
+  rect(1160, 148, 25, 28, '#ffb3b3');
+  rect(1190, 152, 25, 22, '#b3d9ff');
+  rect(1135, 182, 22, 22, '#c8f7c5');
+  rect(1162, 180, 28, 25, '#e8d5f5');
+
+  // 우산꽂이 (오른쪽 아래)
+  rect(1180, 400, 30, 40, '#555');
+  rect(1185, 385, 3, 20, '#e74c3c');
+  rect(1192, 388, 3, 17, '#3498db');
+  rect(1199, 386, 3, 19, '#f1c40f');
 }
 
 function drawWindow(x, y) {
@@ -264,51 +328,55 @@ const TABLE_CY = 340;
 function drawMeetingTable(activeCount) {
   if (activeCount < 2) return; // 2명 이상일 때만
 
-  const tw = 160;
-  const th = 80;
+  const tw = 220;
+  const th = 110;
   const tx = TABLE_CX - tw/2;
   const ty = TABLE_CY - th/2;
 
   // 그림자
   ctx.fillStyle = 'rgba(0,0,0,0.15)';
-  roundRect(tx+5, ty+5, tw, th, 12);
+  roundRect(tx+6, ty+6, tw, th, 14);
 
   // 테이블 다리
-  rect(tx+15, ty+th-5, 5, 15, '#4a3018');
-  rect(tx+tw-20, ty+th-5, 5, 15, '#4a3018');
+  rect(tx+20, ty+th-5, 6, 18, '#4a3018');
+  rect(tx+tw-26, ty+th-5, 6, 18, '#4a3018');
 
   // 테이블 상판
   ctx.fillStyle = PAL.meetingTable;
-  roundRect(tx, ty, tw, th, 12);
+  roundRect(tx, ty, tw, th, 14);
   ctx.fillStyle = PAL.meetingTableTop;
-  roundRect(tx+4, ty+4, tw-8, th-8, 8);
+  roundRect(tx+5, ty+5, tw-10, th-10, 10);
 
   // 테이블 위 장식
   // 노트북
-  rect(tx+30, ty+15, 20, 14, '#333');
-  rect(tx+31, ty+16, 18, 10, '#1a3a1a');
+  rect(tx+35, ty+20, 28, 20, '#333');
+  rect(tx+37, ty+22, 24, 14, '#1a3a1a');
   // 서류
-  rect(tx+70, ty+18, 14, 18, '#f5f5f5');
-  rect(tx+72, ty+20, 10, 1, '#ccc');
-  rect(tx+72, ty+23, 8, 1, '#ccc');
-  rect(tx+72, ty+26, 9, 1, '#ccc');
+  rect(tx+85, ty+22, 20, 24, '#f5f5f5');
+  rect(tx+88, ty+26, 14, 2, '#ccc');
+  rect(tx+88, ty+31, 10, 2, '#ccc');
+  rect(tx+88, ty+36, 12, 2, '#ccc');
   // 펜
-  rect(tx+90, ty+22, 12, 2, '#e74c3c');
+  rect(tx+115, ty+30, 16, 3, '#e74c3c');
   // 머그컵
-  rect(tx+110, ty+25, 6, 6, '#eee');
-  rect(tx+111, ty+26, 4, 4, '#6f4e37');
+  rect(tx+150, ty+32, 8, 8, '#eee');
+  rect(tx+151, ty+33, 6, 6, '#6f4e37');
+  rect(tx+158, ty+34, 3, 4, '#ddd');
+  // 물병
+  rect(tx+175, ty+25, 6, 14, '#89CFF0');
+  rect(tx+174, ty+23, 8, 4, '#aaa');
 
   // "회의중" 표시
-  ctx.font = 'bold 11px "Courier New",monospace';
+  ctx.font = 'bold 13px "Courier New",monospace';
   ctx.fillStyle = 'rgba(255,255,255,0.3)';
-  ctx.fillText('— 회의중 —', TABLE_CX - 30, TABLE_CY + th/2 + 18);
+  ctx.fillText('— 회의중 —', TABLE_CX - 36, TABLE_CY + th/2 + 22);
 }
 
-// 회의 테이블 주변 좌석 위치 (최대 6명)
+// 회의 테이블 주변 좌석 위치 (최대 7명)
 function getMeetingSeat(seatIndex, totalSeats) {
   const angleOffset = -Math.PI / 2; // 12시 방향 시작
-  const radiusX = 120;
-  const radiusY = 65;
+  const radiusX = 165;
+  const radiusY = 100;
 
   const angle = angleOffset + (seatIndex / totalSeats) * Math.PI * 2;
   return {
@@ -322,115 +390,283 @@ function getMeetingSeat(seatIndex, totalSeats) {
 // ========================================
 
 function deskPos(index, total) {
-  // 왼쪽 3개, 오른쪽 3개
+  // 왼쪽 3개, 오른쪽 3개 — 가운데 모임
   const leftCount = Math.ceil(total / 2);
   const isLeft = index < leftCount;
   const localIdx = isLeft ? index : index - leftCount;
-  const colCount = isLeft ? leftCount : total - leftCount;
 
-  const gapY = 130;
-  const startY = 165;
+  const gapY = total <= 6 ? 130 : 115;
+  const startY = total <= 6 ? 165 : 150;
+  const leftX = 250;
+  const rightX = W - 325;
 
   if (isLeft) {
-    return { x: 40, y: startY + localIdx * gapY, cx: 40 + 33 };
+    return { x: leftX, y: startY + localIdx * gapY, cx: leftX + 38 };
   } else {
-    return { x: W - 115, y: startY + localIdx * gapY, cx: W - 115 + 33 };
+    return { x: rightX, y: startY + localIdx * gapY, cx: rightX + 38 };
   }
 }
 
 function drawSmallDesk(x, y, isActive) {
-  rect(x+3, y+18, 55, 3, PAL.shadow);
-  rect(x+4, y+10, 3, 10, '#5c4420');
-  rect(x+50, y+10, 3, 10, '#5c4420');
-  rect(x, y+8, 57, 4, PAL.desk);
-  rect(x+2, y+6, 53, 3, PAL.deskTop);
+  const dw = 75, dh = 6;
+
+  // 그림자
+  rect(x+3, y+dh+14, dw, 3, PAL.shadow);
+  // 다리
+  rect(x+5, y+dh+4, 4, 12, '#5c4420');
+  rect(x+dw-9, y+dh+4, 4, 12, '#5c4420');
+  // 상판
+  rect(x, y+dh, dw, 5, PAL.desk);
+  rect(x+2, y+dh-2, dw-4, 3, PAL.deskTop);
 
   // 의자
-  rect(x+19, y+15, 3, 4, '#444');
-  rect(x+35, y+15, 3, 4, '#444');
-  rect(x+17, y+13, 23, 3, '#555');
-  rect(x+18, y+7, 21, 7, '#4a4a5a');
+  rect(x+25, y+dh+10, 4, 5, '#444');
+  rect(x+46, y+dh+10, 4, 5, '#444');
+  rect(x+23, y+dh+8, 30, 3, '#555');
+  rect(x+24, y+dh+2, 28, 7, '#4a4a5a');
 
   // 모니터
-  rect(x+17, y-7, 20, 13, '#222');
-  rect(x+19, y-5, 16, 9, isActive ? '#1a2a1a' : '#0a0a0a');
-  rect(x+24, y+5, 5, 2, '#333');
-  rect(x+22, y+6, 9, 2, '#444');
+  rect(x+22, y-10, 28, 17, '#222');
+  rect(x+24, y-8, 24, 13, isActive ? '#1a2a1a' : '#0a0a0a');
+  rect(x+32, y+6, 8, 3, '#333');
+  rect(x+29, y+8, 14, 2, '#444');
 
   if (isActive) {
-    for (let i=0; i<3; i++) {
-      const lw = 3+(tick*2+i*7)%8;
-      ctx.fillStyle=['#44bd32','#4a90d9','#f1c40f'][i]; ctx.globalAlpha=0.5;
-      ctx.fillRect(x+21, y-3+i*2.5, lw, 1);
+    for (let i=0; i<4; i++) {
+      const lw = 5+(tick*2+i*7)%12;
+      ctx.fillStyle=['#44bd32','#4a90d9','#f1c40f','#e74c3c'][i]; ctx.globalAlpha=0.5;
+      ctx.fillRect(x+26, y-6+i*3, lw, 2);
     }
     ctx.globalAlpha=1;
   }
 
-  rect(x+19, y+8, 16, 2, '#444');
+  // 키보드
+  rect(x+28, y+dh-5, 18, 3, '#333');
+  rect(x+29, y+dh-4, 16, 1, '#555');
+
+  // 머그컵
+  rect(x+55, y+dh-6, 6, 6, '#eee');
+  rect(x+56, y+dh-5, 4, 4, '#6f4e37');
+  rect(x+61, y+dh-4, 2, 3, '#ddd');
 }
 
 // ========================================
 // 캐릭터
 // ========================================
 
-function drawPerson(x, y, colors, isWorking, frame) {
+// 캐릭터 크기 상수
+const CH = { headW: 20, headH: 20, bodyW: 18, bodyH: 16, legH: 10, armW: 5, totalH: 46 };
+
+function drawPersonHead(x, y, colors, id, frame, isWorking) {
   const f = frame % 120;
-  const bob = isWorking && f%30<15 ? -1 : 0;
 
-  rect(x+1, y+14, 8, 2, PAL.shadow);
+  // 머리 베이스
+  rect(x, y, CH.headW, CH.headH, colors.head);
+  rect(x+1, y+1, CH.headW-2, CH.headH-2, colors.head);
+  // 얼굴 그림자 (턱 라인)
+  rect(x+2, y+CH.headH-4, CH.headW-4, 3, colors.headShadow);
 
-  const lo = isWorking && f%16<8 ? 1 : 0;
-  rect(x+2, y+12+lo, 2, 4, '#3a3a5a');
-  rect(x+6, y+12+(isWorking?-lo:0), 2, 4, '#3a3a5a');
-
-  rect(x+2, y+7, 6, 6, colors.body);
-  rect(x+2, y+bob, 7, 7, colors.head);
-  rect(x+2, y+bob, 7, 2, colors.hair);
-  rect(x+1, y+1+bob, 1, 3, colors.hair);
-  rect(x+9, y+1+bob, 1, 3, colors.hair);
-
-  if (!isWorking && f%70<4) {
-    rect(x+4, y+4+bob, 1, 1, '#555');
-    rect(x+7, y+4+bob, 1, 1, '#555');
+  // 머리카락 (역할별 스타일)
+  if (id === 'artist') {
+    // 짧은 단발 + 앞머리
+    rect(x-1, y-2, CH.headW+2, 7, colors.hair);
+    rect(x-2, y+2, 3, 10, colors.hair);
+    rect(x+CH.headW-1, y+2, 3, 10, colors.hair);
+    rect(x+2, y+1, 5, 3, colors.hairHi); // 하이라이트
+  } else if (id === 'writer') {
+    // 깔끔한 옆가르마
+    rect(x, y-2, CH.headW, 6, colors.hair);
+    rect(x-1, y+1, 3, 8, colors.hair);
+    rect(x+CH.headW-2, y+1, 3, 6, colors.hair);
+    rect(x+3, y, 4, 2, colors.hairHi);
+  } else if (id === 'coder') {
+    // 헝클어진 머리
+    rect(x-1, y-3, CH.headW+2, 7, colors.hair);
+    rect(x-2, y+1, 3, 7, colors.hair);
+    rect(x+CH.headW-1, y+1, 3, 7, colors.hair);
+    rect(x+3, y-4, 3, 3, colors.hair);
+    rect(x+12, y-3, 4, 2, colors.hair);
+    rect(x+7, y-1, 3, 2, colors.hairHi);
+  } else if (id === 'designer') {
+    // 올림머리 / 묶음
+    rect(x, y-2, CH.headW, 6, colors.hair);
+    rect(x-1, y+1, 3, 8, colors.hair);
+    rect(x+CH.headW-2, y+1, 3, 6, colors.hair);
+    rect(x+6, y-5, 8, 5, colors.hair); // 묶음 볼륨
+    rect(x+8, y-4, 4, 2, colors.hairHi);
+  } else if (id === 'planner') {
+    // 빡빡이에 가까운 짧은 머리
+    rect(x+1, y-1, CH.headW-2, 5, colors.hair);
+    rect(x, y+1, 2, 4, colors.hair);
+    rect(x+CH.headW-2, y+1, 2, 4, colors.hair);
+    rect(x+5, y, 3, 2, colors.hairHi);
+  } else if (id === 'publisher') {
+    // 짧은 투블럭
+    rect(x, y-2, CH.headW, 6, colors.hair);
+    rect(x-1, y+1, 3, 5, colors.hair);
+    rect(x+CH.headW-2, y+1, 3, 5, colors.hair);
+    rect(x+5, y-1, 8, 3, colors.hairHi);
   } else {
-    rect(x+4, y+4+bob, 1, 1, '#333');
-    rect(x+7, y+4+bob, 1, 1, '#333');
+    // organizer — 단정한 올백
+    rect(x, y-2, CH.headW, 6, colors.hair);
+    rect(x-1, y+1, 3, 9, colors.hair);
+    rect(x+CH.headW-2, y+1, 3, 7, colors.hair);
+    rect(x+4, y, 5, 2, colors.hairHi);
   }
 
-  if (isWorking) {
-    const ao = f%8<4 ? 0 : -1;
-    rect(x, y+8+ao, 2, 3, colors.body);
-    rect(x+8, y+8-ao, 2, 3, colors.body);
+  // 눈 (3x3 흰자 + 2x2 눈동자)
+  const blink = !isWorking && f%70 < 3;
+  const eyeY = y + 8;
+  const lEyeX = x + 5;
+  const rEyeX = x + 12;
+
+  if (blink) {
+    rect(lEyeX, eyeY+1, 4, 1, colors.eye);
+    rect(rEyeX, eyeY+1, 4, 1, colors.eye);
   } else {
-    rect(x, y+8, 2, 3, colors.body);
-    rect(x+8, y+8, 2, 3, colors.body);
+    // 흰자
+    rect(lEyeX, eyeY, 4, 4, '#fff');
+    rect(rEyeX, eyeY, 4, 4, '#fff');
+    // 눈동자
+    const lookX = isWorking ? 1 : 0;
+    rect(lEyeX+1+lookX, eyeY+1, 2, 2, colors.eye);
+    rect(rEyeX+1+lookX, eyeY+1, 2, 2, colors.eye);
+    // 하이라이트
+    rect(lEyeX+1+lookX, eyeY+1, 1, 1, '#fff');
+    rect(rEyeX+1+lookX, eyeY+1, 1, 1, '#fff');
+  }
+
+  // 눈썹
+  if (isWorking) {
+    // 집중 눈썹 (살짝 찡그림)
+    rect(lEyeX, eyeY-2, 4, 1, colors.hair);
+    rect(rEyeX, eyeY-2, 4, 1, colors.hair);
+  } else {
+    rect(lEyeX-1, eyeY-2, 4, 1, colors.hair);
+    rect(rEyeX+1, eyeY-2, 4, 1, colors.hair);
+  }
+
+  // 볼터치
+  rect(x+2, y+12, 3, 2, colors.cheek);
+  rect(x+CH.headW-5, y+12, 3, 2, colors.cheek);
+
+  // 입
+  if (isWorking) {
+    rect(x+8, y+14, 4, 1, '#c0846a'); // 다문 입
+  } else if (f%200 < 30) {
+    rect(x+8, y+14, 4, 2, '#c0846a'); // 살짝 벌린 입
+    rect(x+9, y+15, 2, 1, '#a06050');
+  } else {
+    rect(x+8, y+14, 4, 1, '#c0846a');
   }
 }
 
-// 걸어가는 캐릭터 (이동중)
-function drawWalkingPerson(x, y, colors, frame) {
+function drawPersonBody(x, y, colors, id, isWorking, frame) {
   const f = frame % 120;
-  const bounce = Math.abs(Math.sin(f * 0.2)) * 2;
+  const bx = x + (CH.headW - CH.bodyW) / 2; // 몸 중앙 정렬
 
-  rect(x+1, y+14, 8, 2, PAL.shadow);
+  // 몸통
+  rect(bx, y, CH.bodyW, CH.bodyH, colors.body);
+  rect(bx+1, y+1, CH.bodyW-2, CH.bodyH-2, colors.body);
+  // 옷 디테일
+  rect(bx+CH.bodyW/2-1, y+2, 2, CH.bodyH-4, colors.bodyDark); // 가운데 라인
+  // 칼라
+  rect(bx+4, y, 4, 3, colors.shirt);
+  rect(bx+CH.bodyW-8, y, 4, 3, colors.shirt);
 
-  const leg = f%8<4 ? 2 : -2;
-  rect(x+2+leg, y+12-bounce, 2, 4, '#3a3a5a');
-  rect(x+6-leg, y+12-bounce, 2, 4, '#3a3a5a');
+  // 역할별 소품
+  if (id === 'artist') {
+    // 앞치마 느낌 줄무늬
+    rect(bx+3, y+8, CH.bodyW-6, 2, colors.bodyDark);
+  } else if (id === 'coder') {
+    // 후드 끈
+    rect(bx+6, y+1, 2, 5, '#ccc');
+    rect(bx+CH.bodyW-8, y+1, 2, 5, '#ccc');
+  } else if (id === 'planner') {
+    // 넥타이
+    rect(bx+CH.bodyW/2-1, y+2, 2, 8, '#c0392b');
+    rect(bx+CH.bodyW/2-2, y+9, 4, 3, '#c0392b');
+  }
+}
 
-  rect(x+2, y+7-bounce, 6, 6, colors.body);
-  rect(x+2, y-bounce, 7, 7, colors.head);
-  rect(x+2, y-bounce, 7, 2, colors.hair);
-  rect(x+1, y+1-bounce, 1, 3, colors.hair);
-  rect(x+9, y+1-bounce, 1, 3, colors.hair);
+function drawPerson(x, y, colors, isWorking, frame, id) {
+  const f = frame % 120;
+  const bob = isWorking && f%30<15 ? -1 : 0;
+  id = id || 'coder';
 
-  rect(x+4, y+4-bounce, 1, 1, '#333');
-  rect(x+7, y+4-bounce, 1, 1, '#333');
+  // 그림자
+  ctx.fillStyle = PAL.shadow;
+  ctx.beginPath();
+  ctx.ellipse(x + CH.headW/2, y + CH.totalH + 2, CH.headW/2 + 2, 3, 0, 0, Math.PI*2);
+  ctx.fill();
+
+  // 다리
+  const legX = x + (CH.headW - CH.bodyW) / 2;
+  const legY = y + CH.headH + CH.bodyH + bob;
+  const lo = isWorking && f%16<8 ? 2 : 0;
+  rect(legX+3, legY+lo, 5, CH.legH-lo, '#3a3a5a');
+  rect(legX+CH.bodyW-8, legY+(isWorking?-lo:0), 5, CH.legH+(isWorking?lo:0), '#3a3a5a');
+  // 신발
+  rect(legX+2, legY+CH.legH-2, 7, 3, '#2a2a3a');
+  rect(legX+CH.bodyW-9, legY+CH.legH-2, 7, 3, '#2a2a3a');
+
+  // 몸
+  drawPersonBody(x, y + CH.headH + bob, colors, id, isWorking, frame);
+
+  // 팔
+  const armY = y + CH.headH + 2 + bob;
+  if (isWorking) {
+    const ao = f%8<4 ? 0 : -2;
+    rect(x - CH.armW + 1, armY + ao, CH.armW, 10, colors.body);
+    rect(x + CH.headW, armY - ao, CH.armW, 10, colors.body);
+    // 손
+    rect(x - CH.armW + 1, armY + 9 + ao, 4, 3, colors.head);
+    rect(x + CH.headW + 1, armY + 9 - ao, 4, 3, colors.head);
+  } else {
+    rect(x - CH.armW + 1, armY, CH.armW, 12, colors.body);
+    rect(x + CH.headW, armY, CH.armW, 12, colors.body);
+    rect(x - CH.armW + 1, armY + 11, 4, 3, colors.head);
+    rect(x + CH.headW + 1, armY + 11, 4, 3, colors.head);
+  }
+
+  // 머리
+  drawPersonHead(x, y + bob, colors, id, frame, isWorking);
+}
+
+// 걸어가는 캐릭터 (이동중)
+function drawWalkingPerson(x, y, colors, frame, id) {
+  const f = frame % 120;
+  const bounce = Math.abs(Math.sin(f * 0.15)) * 3;
+  id = id || 'coder';
+
+  // 그림자
+  ctx.fillStyle = PAL.shadow;
+  ctx.beginPath();
+  ctx.ellipse(x + CH.headW/2, y + CH.totalH + 2, CH.headW/2 + 2, 3, 0, 0, Math.PI*2);
+  ctx.fill();
+
+  // 다리 (걷기 애니메이션)
+  const legX = x + (CH.headW - CH.bodyW) / 2;
+  const legY = y + CH.headH + CH.bodyH - bounce;
+  const leg = f%12<6 ? 4 : -4;
+  rect(legX+3+leg, legY, 5, CH.legH, '#3a3a5a');
+  rect(legX+CH.bodyW-8-leg, legY, 5, CH.legH, '#3a3a5a');
+  rect(legX+2+leg, legY+CH.legH-2, 7, 3, '#2a2a3a');
+  rect(legX+CH.bodyW-9-leg, legY+CH.legH-2, 7, 3, '#2a2a3a');
+
+  // 몸
+  drawPersonBody(x, y + CH.headH - bounce, colors, id, false, frame);
 
   // 팔 흔들기
-  const armSwing = Math.sin(f * 0.2) * 2;
-  rect(x, y+7-bounce+armSwing, 2, 3, colors.body);
-  rect(x+8, y+7-bounce-armSwing, 2, 3, colors.body);
+  const armY = y + CH.headH + 2 - bounce;
+  const armSwing = Math.sin(f * 0.15) * 4;
+  rect(x - CH.armW + 1, armY + armSwing, CH.armW, 12, colors.body);
+  rect(x + CH.headW, armY - armSwing, CH.armW, 12, colors.body);
+  rect(x - CH.armW + 1, armY + 11 + armSwing, 4, 3, colors.head);
+  rect(x + CH.headW + 1, armY + 11 - armSwing, 4, 3, colors.head);
+
+  // 머리
+  drawPersonHead(x, y - bounce, colors, id, frame, false);
 }
 
 // ========================================
@@ -532,7 +768,7 @@ function drawNameBadge(x, y, name, icon, isActive) {
   const nw = ctx.measureText(label).width + 14;
   const nx = x - nw/2;
 
-  ctx.fillStyle = isActive ? 'rgba(46,204,113,0.25)' : 'rgba(255,255,255,0.06)';
+  ctx.fillStyle = isActive ? 'rgba(46,204,113,0.25)' : 'rgba(255,255,255,0.15)';
   roundRect(nx, y, nw, 18, 4);
 
   if (isActive) {
@@ -542,7 +778,7 @@ function drawNameBadge(x, y, name, icon, isActive) {
   }
 
   ctx.font = 'bold 11px "Courier New",monospace';
-  ctx.fillStyle = isActive ? '#fff' : '#555';
+  ctx.fillStyle = isActive ? '#fff' : '#ccc';
   ctx.fillText(label, nx+7, y+13);
 }
 
@@ -617,24 +853,25 @@ function render() {
 
     const dp = deskPos(globalIdx, crewData.length);
     const colors = getColors(member.id);
-    const pos = updateCharPosition(member.id, dp.x + 23, dp.y - 4);
+    const charX = dp.x + 28;
+    const charY = dp.y - 14;
+    const pos = updateCharPosition(member.id, charX, charY);
 
-    // 이동중인지 체크 (위치 차이)
-    const dist = Math.abs(pos.x - dp.x - 23) + Math.abs(pos.y - dp.y + 4);
+    const dist = Math.abs(pos.x - charX) + Math.abs(pos.y - charY);
     if (dist > 5) {
-      drawWalkingPerson(pos.x, pos.y, colors, tick);
+      drawWalkingPerson(pos.x, pos.y, colors, tick, member.id);
     } else {
-      drawPerson(pos.x, pos.y, colors, false, tick + globalIdx * 25);
+      drawPerson(pos.x, pos.y, colors, false, tick + globalIdx * 25, member.id);
     }
 
-    drawNameBadge(dp.cx, dp.y + 28, member.name, member.icon, false);
+    drawNameBadge(dp.cx, dp.y + 45, member.name, member.icon, false);
 
     const bubble = getBubble(member);
     if (bubble.visible) {
       if (bubble.type === 'transition') {
-        drawWorkBubble(dp.cx, dp.y - 4, bubble.text, bubble.emoji, true);
+        drawWorkBubble(dp.cx, dp.y - 20, bubble.text, bubble.emoji, true);
       } else {
-        drawIdleBubble(dp.cx, dp.y - 4, bubble.emoji, bubble.alpha || 1);
+        drawIdleBubble(dp.cx, dp.y - 20, bubble.emoji, bubble.alpha || 1);
       }
     }
   });
@@ -649,16 +886,16 @@ function render() {
 
       const dist = Math.abs(pos.x - seat.x) + Math.abs(pos.y - seat.y);
       if (dist > 5) {
-        drawWalkingPerson(pos.x, pos.y, colors, tick);
+        drawWalkingPerson(pos.x, pos.y, colors, tick, member.id);
       } else {
-        drawPerson(pos.x, pos.y, colors, true, tick + seatIdx * 25);
+        drawPerson(pos.x, pos.y, colors, true, tick + seatIdx * 25, member.id);
       }
 
-      drawNameBadge(pos.x + 5, pos.y + 22, member.name, member.icon, true);
+      drawNameBadge(pos.x + CH.headW/2, pos.y + CH.totalH + 6, member.name, member.icon, true);
 
       const bubble = getBubble(member);
       if (bubble.visible) {
-        drawWorkBubble(pos.x + 5, pos.y, bubble.text, bubble.emoji, bubble.type === 'transition');
+        drawWorkBubble(pos.x + CH.headW/2, pos.y - 10, bubble.text, bubble.emoji, bubble.type === 'transition');
       }
     });
   } else if (activeMembers.length === 1) {
@@ -667,23 +904,24 @@ function render() {
     const globalIdx = crewData.indexOf(member);
     const dp = deskPos(globalIdx, crewData.length);
     const colors = getColors(member.id);
-    const pos = updateCharPosition(member.id, dp.x + 23, dp.y - 4);
+    const charX = dp.x + 28;
+    const charY = dp.y - 14;
+    const pos = updateCharPosition(member.id, charX, charY);
 
-    const dist = Math.abs(pos.x - dp.x - 23) + Math.abs(pos.y - dp.y + 4);
+    const dist = Math.abs(pos.x - charX) + Math.abs(pos.y - charY);
     if (dist > 5) {
-      drawWalkingPerson(pos.x, pos.y, colors, tick);
+      drawWalkingPerson(pos.x, pos.y, colors, tick, member.id);
     } else {
-      drawPerson(pos.x, pos.y, colors, true, tick + globalIdx * 25);
+      drawPerson(pos.x, pos.y, colors, true, tick + globalIdx * 25, member.id);
     }
 
-    // 책상 모니터 켜기
     drawSmallDesk(dp.x, dp.y, true);
 
-    drawNameBadge(dp.cx, dp.y + 28, member.name, member.icon, true);
+    drawNameBadge(dp.cx, dp.y + 45, member.name, member.icon, true);
 
     const bubble = getBubble(member);
     if (bubble.visible) {
-      drawWorkBubble(dp.cx, dp.y - 4, bubble.text, bubble.emoji, bubble.type === 'transition');
+      drawWorkBubble(dp.cx, dp.y - 20, bubble.text, bubble.emoji, bubble.type === 'transition');
     }
   }
 
