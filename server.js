@@ -21,7 +21,7 @@ const MIME = {
 const WORKERS = [
   {
     id: 'artist',
-    name: '아트 민',
+    name: '비주얼리',
     icon: '🎨',
     extensions: ['.jpg', '.jpeg', '.png', '.svg', '.webp', '.gif', '.bmp', '.ico'],
     workingLines: [
@@ -39,7 +39,7 @@ const WORKERS = [
   },
   {
     id: 'writer',
-    name: '글 작가',
+    name: '김작가',
     icon: '✍️',
     extensions: ['.md', '.txt', '.mdx'],
     workingLines: [
@@ -75,7 +75,7 @@ const WORKERS = [
   },
   {
     id: 'publisher',
-    name: '퍼블 이',
+    name: '웹반장',
     icon: '🌐',
     extensions: ['.html', '.css', '.scss'],
     workingLines: [
@@ -95,7 +95,7 @@ const WORKERS = [
     id: 'designer',
     name: '디자인 킴',
     icon: '📊',
-    extensions: ['.pptx', '.ppt', '.key'],
+    extensions: [],
     folderHints: ['slide', 'ppt', 'presentation', 'output', 'deck'],
     workingLines: [
       '슬라이드 만드는 중',
@@ -131,16 +131,16 @@ const WORKERS = [
   },
   {
     id: 'organizer',
-    name: '정리 최',
+    name: '최정리',
     icon: '📋',
-    extensions: ['.json', '.csv', '.yaml', '.yml', '.toml', '.xml'],
+    extensions: ['.json', '.csv', '.yaml', '.yml', '.toml', '.xml', '.pdf', '.docx', '.doc', '.xlsx', '.xls', '.pptx', '.ppt', '.key', '.rtf', '.hwp'],
     excludeFileNames: ['package.json', 'tsconfig.json', 'settings.json'],
     workingLines: [
-      '데이터 정리 중',
+      '문서 정리 중',
       '파일 분류 중',
-      '스프레드시트 만드는 중',
-      '목록 업데이트 중',
-      'JSON 만지는 중',
+      '보고서 만드는 중',
+      '자료 취합 중',
+      '서류 검토 중',
     ],
     idleLines: [
       '서랍 정리 중',

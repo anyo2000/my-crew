@@ -326,7 +326,6 @@ const TABLE_CX = W / 2;
 const TABLE_CY = 340;
 
 function drawMeetingTable(activeCount) {
-  if (activeCount < 2) return; // 2명 이상일 때만
 
   const tw = 220;
   const th = 110;
@@ -366,10 +365,12 @@ function drawMeetingTable(activeCount) {
   rect(tx+175, ty+25, 6, 14, '#89CFF0');
   rect(tx+174, ty+23, 8, 4, '#aaa');
 
-  // "회의중" 표시
-  ctx.font = 'bold 13px "Courier New",monospace';
-  ctx.fillStyle = 'rgba(255,255,255,0.3)';
-  ctx.fillText('— 회의중 —', TABLE_CX - 36, TABLE_CY + th/2 + 22);
+  // "회의중" 표시 (2명 이상일 때만)
+  if (activeCount >= 2) {
+    ctx.font = 'bold 13px "Courier New",monospace';
+    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+    ctx.fillText('— 회의중 —', TABLE_CX - 36, TABLE_CY + th/2 + 22);
+  }
 }
 
 // 회의 테이블 주변 좌석 위치 (최대 7명)
@@ -463,58 +464,80 @@ function drawPersonHead(x, y, colors, id, frame, isWorking) {
   // 머리 베이스
   rect(x, y, CH.headW, CH.headH, colors.head);
   rect(x+1, y+1, CH.headW-2, CH.headH-2, colors.head);
-  // 얼굴 그림자 (턱 라인)
   rect(x+2, y+CH.headH-4, CH.headW-4, 3, colors.headShadow);
 
-  // 머리카락 (역할별 스타일)
+  // === 머리카락 (역할별) ===
   if (id === 'artist') {
-    // 짧은 단발 + 앞머리
-    rect(x-1, y-2, CH.headW+2, 7, colors.hair);
-    rect(x-2, y+2, 3, 10, colors.hair);
-    rect(x+CH.headW-1, y+2, 3, 10, colors.hair);
-    rect(x+2, y+1, 5, 3, colors.hairHi); // 하이라이트
+    // 베레모! 빨간색
+    rect(x-2, y-6, CH.headW+4, 8, '#c0392b');
+    rect(x, y-8, CH.headW, 4, '#c0392b');
+    rect(x+8, y-10, 4, 4, '#c0392b'); // 꼭지
+    rect(x+2, y-5, 6, 2, '#e74c3c'); // 하이라이트
+    // 앞머리 살짝
+    rect(x-1, y+1, 3, 6, colors.hair);
+    rect(x+CH.headW-2, y+1, 3, 6, colors.hair);
   } else if (id === 'writer') {
-    // 깔끔한 옆가르마
+    // 안경잡이 지식인 — 단정한 머리 + 두꺼운 안경
     rect(x, y-2, CH.headW, 6, colors.hair);
     rect(x-1, y+1, 3, 8, colors.hair);
     rect(x+CH.headW-2, y+1, 3, 6, colors.hair);
     rect(x+3, y, 4, 2, colors.hairHi);
   } else if (id === 'coder') {
-    // 헝클어진 머리
+    // 헝클어진 머리 + 헤드폰
     rect(x-1, y-3, CH.headW+2, 7, colors.hair);
     rect(x-2, y+1, 3, 7, colors.hair);
     rect(x+CH.headW-1, y+1, 3, 7, colors.hair);
     rect(x+3, y-4, 3, 3, colors.hair);
     rect(x+12, y-3, 4, 2, colors.hair);
     rect(x+7, y-1, 3, 2, colors.hairHi);
+    // 헤드폰
+    rect(x-4, y+4, 4, 8, '#333');
+    rect(x-4, y+5, 4, 6, '#555'); // 쿠션
+    rect(x+CH.headW, y+4, 4, 8, '#333');
+    rect(x+CH.headW, y+5, 4, 6, '#555');
+    rect(x-2, y-3, CH.headW+4, 2, '#333'); // 밴드
+    rect(x-1, y-4, CH.headW+2, 2, '#444');
   } else if (id === 'designer') {
-    // 올림머리 / 묶음
+    // 높은 묶음머리 + 머리핀
     rect(x, y-2, CH.headW, 6, colors.hair);
     rect(x-1, y+1, 3, 8, colors.hair);
     rect(x+CH.headW-2, y+1, 3, 6, colors.hair);
-    rect(x+6, y-5, 8, 5, colors.hair); // 묶음 볼륨
-    rect(x+8, y-4, 4, 2, colors.hairHi);
+    // 높은 번(bun)
+    rect(x+5, y-9, 10, 9, colors.hair);
+    rect(x+6, y-11, 8, 4, colors.hair);
+    rect(x+7, y-10, 5, 2, colors.hairHi);
+    // 꽃 머리핀
+    rect(x+CH.headW-3, y+2, 4, 4, '#ff69b4');
+    rect(x+CH.headW-2, y+1, 2, 1, '#ff69b4');
+    rect(x+CH.headW-2, y+6, 2, 1, '#ff69b4');
+    rect(x+CH.headW-1, y+3, 1, 1, '#ffff00'); // 꽃 중앙
   } else if (id === 'planner') {
-    // 빡빡이에 가까운 짧은 머리
+    // 올백 + 안경
     rect(x+1, y-1, CH.headW-2, 5, colors.hair);
     rect(x, y+1, 2, 4, colors.hair);
     rect(x+CH.headW-2, y+1, 2, 4, colors.hair);
     rect(x+5, y, 3, 2, colors.hairHi);
   } else if (id === 'publisher') {
-    // 짧은 투블럭
-    rect(x, y-2, CH.headW, 6, colors.hair);
-    rect(x-1, y+1, 3, 5, colors.hair);
-    rect(x+CH.headW-2, y+1, 3, 5, colors.hair);
-    rect(x+5, y-1, 8, 3, colors.hairHi);
+    // 투블럭 + 캡모자
+    rect(x-1, y+3, 3, 5, colors.hair);
+    rect(x+CH.headW-2, y+3, 3, 5, colors.hair);
+    // 캡모자
+    rect(x-1, y-4, CH.headW+2, 7, '#2c3e50');
+    rect(x+1, y-2, CH.headW-2, 3, '#34495e'); // 모자 밴드
+    rect(x-5, y+1, CH.headW+6, 3, '#2c3e50'); // 챙
+    rect(x-5, y+2, 3, 2, '#233140'); // 챙 그림자
   } else {
-    // organizer — 단정한 올백
+    // 문서 최 — 단정한 올백 + 바이저(사무용 눈가리개)
     rect(x, y-2, CH.headW, 6, colors.hair);
     rect(x-1, y+1, 3, 9, colors.hair);
     rect(x+CH.headW-2, y+1, 3, 7, colors.hair);
     rect(x+4, y, 5, 2, colors.hairHi);
+    // 초록 바이저
+    rect(x-2, y+3, CH.headW+4, 3, '#27ae60');
+    rect(x-3, y+4, 2, 2, '#1e8449');
   }
 
-  // 눈 (3x3 흰자 + 2x2 눈동자)
+  // === 눈 ===
   const blink = !isWorking && f%70 < 3;
   const eyeY = y + 8;
   const lEyeX = x + 5;
@@ -524,21 +547,32 @@ function drawPersonHead(x, y, colors, id, frame, isWorking) {
     rect(lEyeX, eyeY+1, 4, 1, colors.eye);
     rect(rEyeX, eyeY+1, 4, 1, colors.eye);
   } else {
-    // 흰자
     rect(lEyeX, eyeY, 4, 4, '#fff');
     rect(rEyeX, eyeY, 4, 4, '#fff');
-    // 눈동자
     const lookX = isWorking ? 1 : 0;
     rect(lEyeX+1+lookX, eyeY+1, 2, 2, colors.eye);
     rect(rEyeX+1+lookX, eyeY+1, 2, 2, colors.eye);
-    // 하이라이트
     rect(lEyeX+1+lookX, eyeY+1, 1, 1, '#fff');
     rect(rEyeX+1+lookX, eyeY+1, 1, 1, '#fff');
   }
 
+  // === 안경 (글 작가, 기획 장) ===
+  if (id === 'writer' || id === 'planner') {
+    const gc = id === 'writer' ? '#222' : '#8B7355';
+    // 왼쪽 렌즈
+    ctx.strokeStyle = gc; ctx.lineWidth = 1.5;
+    ctx.strokeRect(lEyeX-1, eyeY-1, 6, 6);
+    // 오른쪽 렌즈
+    ctx.strokeRect(rEyeX-1, eyeY-1, 6, 6);
+    // 브릿지
+    rect(lEyeX+5, eyeY+1, rEyeX-lEyeX-5, 1, gc);
+    // 다리
+    rect(lEyeX-3, eyeY+1, 3, 1, gc);
+    rect(rEyeX+6, eyeY+1, 3, 1, gc);
+  }
+
   // 눈썹
   if (isWorking) {
-    // 집중 눈썹 (살짝 찡그림)
     rect(lEyeX, eyeY-2, 4, 1, colors.hair);
     rect(rEyeX, eyeY-2, 4, 1, colors.hair);
   } else {
@@ -552,40 +586,102 @@ function drawPersonHead(x, y, colors, id, frame, isWorking) {
 
   // 입
   if (isWorking) {
-    rect(x+8, y+14, 4, 1, '#c0846a'); // 다문 입
+    rect(x+8, y+14, 4, 1, '#c0846a');
   } else if (f%200 < 30) {
-    rect(x+8, y+14, 4, 2, '#c0846a'); // 살짝 벌린 입
+    rect(x+8, y+14, 4, 2, '#c0846a');
     rect(x+9, y+15, 2, 1, '#a06050');
   } else {
     rect(x+8, y+14, 4, 1, '#c0846a');
+  }
+
+  // === 수염 (기획 장 — 콧수염) ===
+  if (id === 'planner') {
+    rect(x+6, y+15, 3, 1, colors.hair);
+    rect(x+11, y+15, 3, 1, colors.hair);
+    rect(x+5, y+16, 2, 1, colors.hair);
+    rect(x+13, y+16, 2, 1, colors.hair);
   }
 }
 
 function drawPersonBody(x, y, colors, id, isWorking, frame) {
   const f = frame % 120;
-  const bx = x + (CH.headW - CH.bodyW) / 2; // 몸 중앙 정렬
+  const bx = x + (CH.headW - CH.bodyW) / 2;
 
   // 몸통
   rect(bx, y, CH.bodyW, CH.bodyH, colors.body);
   rect(bx+1, y+1, CH.bodyW-2, CH.bodyH-2, colors.body);
-  // 옷 디테일
-  rect(bx+CH.bodyW/2-1, y+2, 2, CH.bodyH-4, colors.bodyDark); // 가운데 라인
-  // 칼라
-  rect(bx+4, y, 4, 3, colors.shirt);
-  rect(bx+CH.bodyW-8, y, 4, 3, colors.shirt);
 
-  // 역할별 소품
   if (id === 'artist') {
-    // 앞치마 느낌 줄무늬
-    rect(bx+3, y+8, CH.bodyW-6, 2, colors.bodyDark);
+    // 앞치마 (페인트 묻은)
+    rect(bx+2, y+4, CH.bodyW-4, CH.bodyH-4, '#f5f0e0');
+    rect(bx+3, y+3, CH.bodyW-6, 2, '#e8e0d0');
+    // 끈
+    rect(bx+CH.bodyW/2-1, y, 2, 4, '#e8e0d0');
+    // 페인트 자국
+    rect(bx+5, y+7, 3, 2, '#e84393');
+    rect(bx+10, y+9, 2, 3, '#3498db');
+    rect(bx+7, y+11, 2, 2, '#f1c40f');
+  } else if (id === 'writer') {
+    // 셔츠 + 조끼
+    rect(bx+2, y+1, CH.bodyW-4, CH.bodyH-2, colors.shirt);
+    // 조끼
+    rect(bx+1, y, 5, CH.bodyH, '#3a3a5a');
+    rect(bx+CH.bodyW-6, y, 5, CH.bodyH, '#3a3a5a');
+    // 단추
+    rect(bx+CH.bodyW/2-1, y+3, 2, 2, '#8B7355');
+    rect(bx+CH.bodyW/2-1, y+8, 2, 2, '#8B7355');
   } else if (id === 'coder') {
+    // 후드티
+    rect(bx+CH.bodyW/2-1, y+2, 2, CH.bodyH-4, colors.bodyDark);
     // 후드 끈
-    rect(bx+6, y+1, 2, 5, '#ccc');
-    rect(bx+CH.bodyW-8, y+1, 2, 5, '#ccc');
+    rect(bx+6, y+1, 2, 6, '#ccc');
+    rect(bx+CH.bodyW-8, y+1, 2, 6, '#ccc');
+    // 주머니
+    rect(bx+3, y+9, CH.bodyW-6, 5, colors.bodyDark);
+    rect(bx+CH.bodyW/2-1, y+9, 2, 5, colors.body);
+  } else if (id === 'publisher') {
+    // 깔끔한 폴로셔츠
+    rect(bx+CH.bodyW/2-1, y+2, 2, 6, colors.bodyDark);
+    // 칼라 (폴로)
+    rect(bx+3, y-1, 5, 3, colors.body);
+    rect(bx+CH.bodyW-8, y-1, 5, 3, colors.body);
+    rect(bx+4, y, 3, 2, colors.bodyDark);
+    rect(bx+CH.bodyW-7, y, 3, 2, colors.bodyDark);
+    // 단추
+    rect(bx+CH.bodyW/2-1, y+2, 2, 2, '#fff');
+    rect(bx+CH.bodyW/2-1, y+5, 2, 2, '#fff');
+  } else if (id === 'designer') {
+    // 세련된 블라우스 + 스카프
+    rect(bx+CH.bodyW/2-1, y+2, 2, CH.bodyH-4, colors.bodyDark);
+    rect(bx+4, y, 4, 3, colors.shirt);
+    rect(bx+CH.bodyW-8, y, 4, 3, colors.shirt);
+    // 스카프
+    rect(bx+5, y, 8, 3, '#ff69b4');
+    rect(bx+6, y+2, 3, 4, '#ff69b4');
+    rect(bx+9, y+3, 2, 3, '#e84393');
   } else if (id === 'planner') {
+    // 정장 + 넥타이 + 흰 셔츠
+    rect(bx+5, y, 8, CH.bodyH, colors.shirt); // 셔츠
+    // 정장 라펠
+    rect(bx+1, y, 5, CH.bodyH, colors.bodyDark);
+    rect(bx+CH.bodyW-6, y, 5, CH.bodyH, colors.bodyDark);
     // 넥타이
-    rect(bx+CH.bodyW/2-1, y+2, 2, 8, '#c0392b');
+    rect(bx+CH.bodyW/2-1, y+1, 2, 9, '#c0392b');
     rect(bx+CH.bodyW/2-2, y+9, 4, 3, '#c0392b');
+    rect(bx+CH.bodyW/2-1, y+11, 2, 1, '#a93226');
+    // 주머니 손수건
+    rect(bx+2, y+2, 3, 3, colors.shirt);
+  } else {
+    // 문서 최 — 조끼 + 팔토시
+    rect(bx+CH.bodyW/2-1, y+2, 2, CH.bodyH-4, colors.bodyDark);
+    rect(bx+4, y, 4, 3, colors.shirt);
+    rect(bx+CH.bodyW-8, y, 4, 3, colors.shirt);
+    // 조끼
+    rect(bx+2, y+3, CH.bodyW-4, CH.bodyH-4, '#2c3e50');
+    rect(bx+5, y+3, CH.bodyW-10, CH.bodyH-4, '#34495e');
+    // 단추
+    rect(bx+CH.bodyW/2-1, y+5, 2, 2, '#f1c40f');
+    rect(bx+CH.bodyW/2-1, y+9, 2, 2, '#f1c40f');
   }
 }
 
@@ -600,33 +696,62 @@ function drawPerson(x, y, colors, isWorking, frame, id) {
   ctx.ellipse(x + CH.headW/2, y + CH.totalH + 2, CH.headW/2 + 2, 3, 0, 0, Math.PI*2);
   ctx.fill();
 
-  // 다리
+  // 다리 (역할별 바지/신발)
   const legX = x + (CH.headW - CH.bodyW) / 2;
   const legY = y + CH.headH + CH.bodyH + bob;
   const lo = isWorking && f%16<8 ? 2 : 0;
-  rect(legX+3, legY+lo, 5, CH.legH-lo, '#3a3a5a');
-  rect(legX+CH.bodyW-8, legY+(isWorking?-lo:0), 5, CH.legH+(isWorking?lo:0), '#3a3a5a');
-  // 신발
-  rect(legX+2, legY+CH.legH-2, 7, 3, '#2a2a3a');
-  rect(legX+CH.bodyW-9, legY+CH.legH-2, 7, 3, '#2a2a3a');
+  const pantColor = id === 'planner' ? '#2c3e50' : id === 'designer' ? '#4a4a5a' : id === 'artist' ? '#6a5a4a' : '#3a3a5a';
+  const shoeColor = id === 'planner' ? '#1a1a2a' : id === 'designer' ? '#c0392b' : id === 'coder' ? '#27ae60' : id === 'artist' ? '#e74c3c' : '#2a2a3a';
+  rect(legX+3, legY+lo, 5, CH.legH-lo, pantColor);
+  rect(legX+CH.bodyW-8, legY+(isWorking?-lo:0), 5, CH.legH+(isWorking?lo:0), pantColor);
+  rect(legX+2, legY+CH.legH-2, 7, 3, shoeColor);
+  rect(legX+CH.bodyW-9, legY+CH.legH-2, 7, 3, shoeColor);
 
   // 몸
   drawPersonBody(x, y + CH.headH + bob, colors, id, isWorking, frame);
 
   // 팔
   const armY = y + CH.headH + 2 + bob;
+  // 문서 최 — 팔토시
+  const armColor = id === 'organizer' ? '#2c3e50' : colors.body;
   if (isWorking) {
     const ao = f%8<4 ? 0 : -2;
-    rect(x - CH.armW + 1, armY + ao, CH.armW, 10, colors.body);
-    rect(x + CH.headW, armY - ao, CH.armW, 10, colors.body);
-    // 손
+    rect(x - CH.armW + 1, armY + ao, CH.armW, 10, armColor);
+    rect(x + CH.headW, armY - ao, CH.armW, 10, armColor);
     rect(x - CH.armW + 1, armY + 9 + ao, 4, 3, colors.head);
     rect(x + CH.headW + 1, armY + 9 - ao, 4, 3, colors.head);
+    // 손에 든 소품 (작업중)
+    if (id === 'artist') {
+      // 붓
+      rect(x + CH.headW + 2, armY + 6 - ao, 2, 8, '#8B4513');
+      rect(x + CH.headW + 1, armY + 13 - ao, 4, 3, '#e84393');
+    } else if (id === 'writer') {
+      // 펜
+      rect(x - CH.armW - 1, armY + 6 + ao, 2, 8, '#333');
+      rect(x - CH.armW - 1, armY + 13 + ao, 2, 2, '#4a90d9');
+    } else if (id === 'organizer') {
+      // 클립보드
+      rect(x - CH.armW - 3, armY + 3 + ao, 8, 10, '#8B6F47');
+      rect(x - CH.armW - 2, armY + 4 + ao, 6, 8, '#fff');
+      rect(x - CH.armW - 1, armY + 5 + ao, 4, 1, '#ccc');
+      rect(x - CH.armW - 1, armY + 7 + ao, 3, 1, '#ccc');
+    }
   } else {
-    rect(x - CH.armW + 1, armY, CH.armW, 12, colors.body);
-    rect(x + CH.headW, armY, CH.armW, 12, colors.body);
+    rect(x - CH.armW + 1, armY, CH.armW, 12, armColor);
+    rect(x + CH.headW, armY, CH.armW, 12, armColor);
     rect(x - CH.armW + 1, armY + 11, 4, 3, colors.head);
     rect(x + CH.headW + 1, armY + 11, 4, 3, colors.head);
+    // 손에 든 소품 (쉬는중)
+    if (id === 'coder') {
+      // 커피컵
+      rect(x + CH.headW + 2, armY + 8, 5, 5, '#eee');
+      rect(x + CH.headW + 3, armY + 9, 3, 3, '#6f4e37');
+      rect(x + CH.headW + 7, armY + 9, 2, 3, '#ddd');
+    } else if (id === 'writer') {
+      // 책
+      rect(x - CH.armW - 3, armY + 5, 7, 9, '#4a90d9');
+      rect(x - CH.armW - 2, armY + 6, 5, 7, '#5a9fe9');
+    }
   }
 
   // 머리
