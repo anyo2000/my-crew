@@ -5,7 +5,7 @@ const { execSync } = require('child_process');
 
 const PORT = 3333;
 const WORKSPACE = path.join(require('os').homedir(), 'Desktop/workspace');
-const ACTIVE_SEC = 30; // 30초 이내 변경 = 활동중
+const ACTIVE_SEC = 180; // 3분 이내 변경 = 활동중
 
 const MIME = {
   '.html': 'text/html',
@@ -151,6 +151,61 @@ const WORKERS = [
 ];
 
 // ========================================
+// Claude 세션 감지 — lsof로 cwd 추출
+// ========================================
+
+const THINKING_LINES = [
+  '조사 중',
+  '분석 중',
+  '리서치 중',
+  '검토 중',
+  '자료 읽는 중',
+  '정리하는 중',
+];
+
+function detectClaudeSessions() {
+  try {
+    // claude 프로세스 PID + CPU 수집
+    const psResult = execSync(
+      `ps -eo pid,%cpu,command | awk '/[c]laude --/ {print $1, $2}'`,
+      { encoding: 'utf-8', timeout: 3000 }
+    ).trim();
+
+    if (!psResult) return [];
+
+    // CPU 5% 이상 = 활동 중
+    const activePids = [];
+    for (const line of psResult.split('\n').filter(Boolean)) {
+      const [pid, cpu] = line.trim().split(/\s+/);
+      if (parseFloat(cpu) >= 5) activePids.push(pid);
+    }
+
+    if (activePids.length === 0) return [];
+
+    // 활성 PID의 cwd → 레포 매핑
+    const repos = new Set();
+    for (const pid of activePids) {
+      try {
+        const cwd = execSync(
+          `lsof -p ${pid} 2>/dev/null | awk '$4=="cwd" {print $NF}'`,
+          { encoding: 'utf-8', timeout: 2000 }
+        ).trim();
+
+        if (cwd && cwd.startsWith(WORKSPACE + '/')) {
+          const rel = path.relative(WORKSPACE, cwd);
+          const repo = rel.split(path.sep)[0];
+          if (repo) repos.add(repo);
+        }
+      } catch (e) { /* skip */ }
+    }
+
+    return [...repos];
+  } catch (e) {
+    return [];
+  }
+}
+
+// ========================================
 // 전체 워크스페이스 스캔 → 최근 변경 파일 수집
 // ========================================
 
@@ -164,7 +219,7 @@ function scanRecentFiles() {
       `-not -path "*/dist/*" ` +
       `-not -path "*/__pycache__/*" ` +
       `-not -path "*/.cache/*" ` +
-      `-type f -mmin -1 2>/dev/null || true`,
+      `-type f -mmin -4 2>/dev/null || true`,
       { encoding: 'utf-8', timeout: 5000 }
     ).trim();
 
@@ -267,6 +322,23 @@ function getCrewStatus() {
       fileCount: matchedFiles.length,
     };
   });
+
+  // Claude 세션 감지 — 파일 변경 없어도 활동 표시
+  const claudeRepos = detectClaudeSessions();
+  const activeRepos = new Set(recentFiles.map(f => f.repo));
+  const thinkingRepos = claudeRepos.filter(r => !activeRepos.has(r));
+
+  let labelIdx = 0;
+  for (const repo of thinkingRepos) {
+    const idle = crew.find(w => w.action === 'idle');
+    if (idle) {
+      idle.action = 'thinking';
+      idle.label = THINKING_LINES[labelIdx % THINKING_LINES.length];
+      idle.detail = repo;
+      idle.detailRepo = repo;
+      labelIdx++;
+    }
+  }
 
   return crew;
 }

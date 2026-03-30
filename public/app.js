@@ -40,15 +40,30 @@ const WORK_BUBBLES = [
 
 const IDLE_ICONS = ['☕', '💤', '😴', '🙆', '📱'];
 
+const THINK_BUBBLES = [
+  { emoji: '🔍', text: '' },
+  { emoji: '🤔', text: '' },
+  { emoji: '📖', text: '' },
+  { emoji: '🧐', text: '' },
+  { emoji: '💭', text: '' },
+  { emoji: '🔍', text: '찾아보는 중' },
+  { emoji: '🤔', text: '음...' },
+  { emoji: '📖', text: '읽는 중' },
+  { emoji: '💭', text: '생각 중...' },
+  { emoji: '🧐', text: '이거 괜찮나' },
+];
+
 const bubbleStates = {};
 
 function getBubble(member) {
   const key = member.id || member.name;
   const isWorking = member.action === 'working';
+  const isThinking = member.action === 'thinking';
+  const isActive = isWorking || isThinking;
 
   if (!bubbleStates[key]) {
     bubbleStates[key] = {
-      wasWorking: isWorking,
+      wasWorking: isActive,
       workIdx: Math.floor(Math.random() * WORK_BUBBLES.length),
       showFile: false,
       blinkTimer: 0,
@@ -62,17 +77,17 @@ function getBubble(member) {
 
   const s = bubbleStates[key];
 
-  if (s.wasWorking !== isWorking) {
-    if (isWorking && !s.wasWorking) {
+  if (s.wasWorking !== isActive) {
+    if (isActive && !s.wasWorking) {
       s.justStarted = true;
       s.justFinished = false;
       s.transitionTimer = 120;
-    } else if (!isWorking && s.wasWorking) {
+    } else if (!isActive && s.wasWorking) {
       s.justFinished = true;
       s.justStarted = false;
       s.transitionTimer = 150;
     }
-    s.wasWorking = isWorking;
+    s.wasWorking = isActive;
   }
 
   if (s.transitionTimer > 0) {
@@ -98,6 +113,20 @@ function getBubble(member) {
     } else {
       const b = WORK_BUBBLES[s.workIdx];
       return { type: 'work', emoji: b.emoji, text: b.text, visible: true };
+    }
+  } else if (isThinking) {
+    s.blinkTimer++;
+    const cycle = s.blinkTimer % 160;
+    if (cycle < 12) return { type: 'think', visible: false };
+    if (cycle === 12) {
+      s.showFile = !s.showFile;
+      if (!s.showFile) s.workIdx = (s.workIdx + 1) % THINK_BUBBLES.length;
+    }
+    if (s.showFile && member.detail) {
+      return { type: 'think', emoji: '💭', text: `${member.detailRepo}`, visible: true };
+    } else {
+      const b = THINK_BUBBLES[s.workIdx];
+      return { type: 'think', emoji: b.emoji, text: b.text, visible: true };
     }
   } else {
     s.idleShowTimer++;
@@ -798,7 +827,7 @@ function drawWalkingPerson(x, y, colors, frame, id) {
 // 말풍선
 // ========================================
 
-function drawWorkBubble(x, y, text, emoji, isTransition) {
+function drawWorkBubble(x, y, text, emoji, isTransition, isThink) {
   const hasText = text && text.length > 0;
 
   if (!hasText) {
@@ -809,13 +838,13 @@ function drawWorkBubble(x, y, text, emoji, isTransition) {
     ctx.fillStyle = 'rgba(0,0,0,0.2)';
     ctx.beginPath(); ctx.arc(x+2, by+size/2+2, size/2+2, 0, Math.PI*2); ctx.fill();
 
-    ctx.fillStyle = isTransition ? '#fff9c4' : '#fff';
+    ctx.fillStyle = isTransition ? '#fff9c4' : isThink ? '#f0e6ff' : '#fff';
     ctx.beginPath(); ctx.arc(x, by+size/2, size/2+2, 0, Math.PI*2); ctx.fill();
-    ctx.strokeStyle = isTransition ? '#f39c12' : '#333';
+    ctx.strokeStyle = isTransition ? '#f39c12' : isThink ? '#9b59b6' : '#333';
     ctx.lineWidth = isTransition ? 3 : 2;
     ctx.beginPath(); ctx.arc(x, by+size/2, size/2+2, 0, Math.PI*2); ctx.stroke();
 
-    ctx.fillStyle = isTransition ? '#fff9c4' : '#fff';
+    ctx.fillStyle = isTransition ? '#fff9c4' : isThink ? '#f0e6ff' : '#fff';
     ctx.beginPath();
     ctx.moveTo(x-3, by+size+1); ctx.lineTo(x+3, by+size+1); ctx.lineTo(x, by+size+6);
     ctx.fill();
@@ -838,28 +867,28 @@ function drawWorkBubble(x, y, text, emoji, isTransition) {
   ctx.fillStyle = 'rgba(0,0,0,0.25)';
   roundRect(clampedBx+4, by+4, totalW, bh, 10);
 
-  ctx.fillStyle = isTransition ? '#fff9c4' : '#fff';
+  ctx.fillStyle = isTransition ? '#fff9c4' : isThink ? '#f0e6ff' : '#fff';
   roundRect(clampedBx, by, totalW, bh, 10);
 
-  ctx.strokeStyle = isTransition ? '#f39c12' : '#333';
+  ctx.strokeStyle = isTransition ? '#f39c12' : isThink ? '#9b59b6' : '#333';
   ctx.lineWidth = isTransition ? 3 : 2;
   ctx.beginPath(); rrPath(clampedBx, by, totalW, bh, 10); ctx.stroke();
 
   ctx.save();
   ctx.beginPath(); rrPath(clampedBx, by, 6, bh, 4); ctx.clip();
-  ctx.fillStyle = isTransition ? '#f39c12' : '#2ecc71';
+  ctx.fillStyle = isTransition ? '#f39c12' : isThink ? '#9b59b6' : '#2ecc71';
   ctx.fillRect(clampedBx, by, 6, bh);
   ctx.restore();
 
   // 꼬리
   const tailX = Math.max(clampedBx + 15, Math.min(x, clampedBx + totalW - 15));
-  ctx.fillStyle = isTransition ? '#fff9c4' : '#fff';
+  ctx.fillStyle = isTransition ? '#fff9c4' : isThink ? '#f0e6ff' : '#fff';
   ctx.beginPath();
   ctx.moveTo(tailX-5, by+bh); ctx.lineTo(tailX+5, by+bh); ctx.lineTo(tailX, by+bh+8);
   ctx.fill();
-  ctx.strokeStyle = isTransition ? '#f39c12' : '#333';
+  ctx.strokeStyle = isTransition ? '#f39c12' : isThink ? '#9b59b6' : '#333';
   ctx.beginPath(); ctx.moveTo(tailX-5, by+bh); ctx.lineTo(tailX, by+bh+8); ctx.lineTo(tailX+5, by+bh); ctx.stroke();
-  ctx.fillStyle = isTransition ? '#fff9c4' : '#fff';
+  ctx.fillStyle = isTransition ? '#fff9c4' : isThink ? '#f0e6ff' : '#fff';
   ctx.fillRect(tailX-4, by+bh-2, 9, 3);
 
   ctx.font = '20px "Segoe UI Emoji","Apple Color Emoji",sans-serif';
@@ -958,8 +987,8 @@ function render() {
 
   drawOffice();
 
-  const activeMembers = crewData.filter(m => m.action === 'working');
-  const idleMembers = crewData.filter(m => m.action !== 'working');
+  const activeMembers = crewData.filter(m => m.action === 'working' || m.action === 'thinking');
+  const idleMembers = crewData.filter(m => m.action === 'idle');
   const isMeeting = activeMembers.length >= 2;
 
   // 회의 테이블 (2명 이상 활동시)
@@ -974,7 +1003,7 @@ function render() {
 
   // 쉬는 멤버 — 자기 자리에
   crewData.forEach((member, globalIdx) => {
-    if (member.action === 'working') return;
+    if (member.action !== 'idle') return;
 
     const dp = deskPos(globalIdx, crewData.length);
     const colors = getColors(member.id);
@@ -1020,7 +1049,7 @@ function render() {
 
       const bubble = getBubble(member);
       if (bubble.visible) {
-        drawWorkBubble(pos.x + CH.headW/2, pos.y - 10, bubble.text, bubble.emoji, bubble.type === 'transition');
+        drawWorkBubble(pos.x + CH.headW/2, pos.y - 10, bubble.text, bubble.emoji, bubble.type === 'transition', bubble.type === 'think');
       }
     });
   } else if (activeMembers.length === 1) {
@@ -1046,7 +1075,7 @@ function render() {
 
     const bubble = getBubble(member);
     if (bubble.visible) {
-      drawWorkBubble(dp.cx, dp.y - 20, bubble.text, bubble.emoji, bubble.type === 'transition');
+      drawWorkBubble(dp.cx, dp.y - 20, bubble.text, bubble.emoji, bubble.type === 'transition', bubble.type === 'think');
     }
   }
 
@@ -1074,19 +1103,27 @@ function drawHUD() {
   ctx.fillStyle = '#aaa';
   ctx.fillText(now.toLocaleTimeString('ko-KR', {hour:'2-digit',minute:'2-digit',second:'2-digit'}), W-95, H-14);
 
-  const active = crewData.filter(c => c.action === 'working').length;
+  const working = crewData.filter(c => c.action === 'working').length;
+  const thinking = crewData.filter(c => c.action === 'thinking').length;
+  const active = working + thinking;
 
   crewData.forEach((m, i) => {
     const dx = 170 + i*30;
     const dy = H-19;
     const isAct = m.action === 'working';
+    const isThink = m.action === 'thinking';
 
     if (isAct) {
       ctx.fillStyle = 'rgba(46,204,113,0.3)';
       ctx.beginPath(); ctx.arc(dx, dy, 11, 0, Math.PI*2); ctx.fill();
+    } else if (isThink) {
+      // thinking은 보라색 글로우 (깜빡임)
+      const pulse = 0.2 + Math.sin(tick * 0.05) * 0.15;
+      ctx.fillStyle = `rgba(155,89,182,${pulse})`;
+      ctx.beginPath(); ctx.arc(dx, dy, 11, 0, Math.PI*2); ctx.fill();
     }
 
-    ctx.fillStyle = isAct ? '#2ecc71' : '#333';
+    ctx.fillStyle = isAct ? '#2ecc71' : isThink ? '#9b59b6' : '#333';
     ctx.beginPath(); ctx.arc(dx, dy, 7, 0, Math.PI*2); ctx.fill();
 
     ctx.font = '11px "Segoe UI Emoji","Apple Color Emoji",sans-serif';
@@ -1097,10 +1134,13 @@ function drawHUD() {
   ctx.font = 'bold 13px "Courier New",monospace';
   if (active >= 2) {
     ctx.fillStyle = '#2ecc71';
-    ctx.fillText(`${active}명 회의중 🗣️`, sx, H-12);
+    const parts = [];
+    if (working > 0) parts.push(`${working}명 작업`);
+    if (thinking > 0) parts.push(`${thinking}명 조사`);
+    ctx.fillText(parts.join(' + ') + (active >= 2 ? ' 🗣️' : ''), sx, H-12);
   } else if (active === 1) {
-    ctx.fillStyle = '#2ecc71';
-    ctx.fillText('1명 활동중', sx, H-12);
+    ctx.fillStyle = thinking > 0 ? '#9b59b6' : '#2ecc71';
+    ctx.fillText(thinking > 0 ? '1명 조사중 💭' : '1명 활동중', sx, H-12);
   } else {
     ctx.fillStyle = '#666';
     ctx.fillText('모두 쉬는 중', sx, H-12);
